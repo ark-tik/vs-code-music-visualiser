@@ -104,6 +104,11 @@
           "minimum": 0,
           "maximum": 1,
           "description": "Cursor movement smoothing (0.0 = no smoothing, 1.0 = maximum smoothing)"
+        },
+        "audioVisualizer.useDefaultVisualizationFile": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically open a default visualization file with rich content for better visual experience"
         }
       }
     }

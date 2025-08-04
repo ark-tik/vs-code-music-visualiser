@@ -1,8 +1,38 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
+import * as fs from 'fs';
 import { AudioVisualizer } from './audioVisualizer';
 import { Logger } from './logger';
 
 let audioVisualizer: AudioVisualizer | undefined;
+
+async function openDefaultVisualizationFile(context: vscode.ExtensionContext): Promise<void> {
+    const config = vscode.workspace.getConfiguration('audioVisualizer');
+    const useDefaultFile = config.get<boolean>('useDefaultVisualizationFile', true);
+    
+    if (!useDefaultFile) {
+        return;
+    }
+
+    try {
+        // Get the default visualization file from the extension's assets
+        const defaultFilePath = path.join(context.extensionPath, 'assets', 'default-visualization.md');
+        
+        // Check if the file exists
+        if (!fs.existsSync(defaultFilePath)) {
+            Logger.debug('Default visualization file not found at: ' + defaultFilePath);
+            return;
+        }
+
+        // Open the file
+        const document = await vscode.workspace.openTextDocument(defaultFilePath);
+        await vscode.window.showTextDocument(document);
+        
+        Logger.debug('Opened default visualization file for enhanced visual experience');
+    } catch (error) {
+        Logger.error(`Failed to open default visualization file: ${error}`);
+    }
+}
 
 export function activate(context: vscode.ExtensionContext) {
     // Initialize logging
@@ -17,6 +47,9 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         try {
+            // Open default visualization file first
+            await openDefaultVisualizationFile(context);
+            
             Logger.debug('Creating AudioVisualizer instance...');
             audioVisualizer = new AudioVisualizer();
             Logger.debug('Starting audio visualizer...');
