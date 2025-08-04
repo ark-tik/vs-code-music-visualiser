@@ -1,0 +1,127 @@
+{
+  "name": "multiline-cursor-audio-visualizer",
+  "displayName": "Multiline Cursor Audio Visualizer",
+  "description": "Real-time audio visualization using multiline cursors in VS Code",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "audioVisualizer.start",
+        "title": "Start Audio Visualizer",
+        "category": "Audio Visualizer"
+      },
+      {
+        "command": "audioVisualizer.stop",
+        "title": "Stop Audio Visualizer",
+        "category": "Audio Visualizer"
+      },
+      {
+        "command": "audioVisualizer.configure",
+        "title": "Configure Audio Visualizer",
+        "category": "Audio Visualizer"
+      },
+      {
+        "command": "audioVisualizer.startTest",
+        "title": "Start Audio Visualizer (Test Mode)",
+        "category": "Audio Visualizer"
+      },
+      {
+        "command": "audioVisualizer.startTestDFT",
+        "title": "Start Audio Visualizer (Test Mode - DFT)",
+        "category": "Audio Visualizer"
+      },
+      {
+        "command": "audioVisualizer.startFile",
+        "title": "Start Audio Visualizer (File Mode)",
+        "category": "Audio Visualizer"
+      },
+      {
+        "command": "audioVisualizer.startSystemAudio",
+        "title": "Start Audio Visualizer (System Audio)",
+        "category": "Audio Visualizer"
+      }
+    ],
+    "configuration": {
+      "title": "Audio Visualizer",
+      "properties": {
+        "audioVisualizer.sensitivity": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0.1,
+          "maximum": 5,
+          "description": "Global audio sensitivity multiplier (ignored when individual frequency band sensitivity is enabled)"
+        },
+        "audioVisualizer.frequencyRange": {
+          "type": "object",
+          "default": {
+            "min": 20,
+            "max": 20000
+          },
+          "description": "Frequency range for visualization"
+        },
+        "audioVisualizer.autoConfigureCursorCount": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically configure cursor count based on visible lines (recommended)"
+        },
+        "audioVisualizer.cursorCount": {
+          "type": "number",
+          "default": 64,
+          "minimum": 8,
+          "maximum": 256,
+          "description": "Number of cursors for visualization (only used when auto-configuration is disabled)"
+        },
+        "audioVisualizer.maxCursors": {
+          "type": "number",
+          "default": 128,
+          "minimum": 16,
+          "maximum": 512,
+          "description": "Maximum number of cursors when auto-configuring"
+        },
+        "audioVisualizer.updateRate": {
+          "type": "number",
+          "default": 60,
+          "minimum": 30,
+          "maximum": 120,
+          "description": "Update rate in FPS"
+        },
+        "audioVisualizer.enableDebugLogging": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable verbose debug logging (for development/troubleshooting)"
+        },
+        "audioVisualizer.smoothing": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Cursor movement smoothing (0.0 = no smoothing, 1.0 = maximum smoothing)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.121",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@picovoice/pvrecorder-node": "^1.2.0",
+    "fft.js": "^1.0.1",
+    "node-wav": "^0.0.2"
+  }
+}
