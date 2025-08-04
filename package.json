@@ -54,10 +54,10 @@
       "properties": {
         "audioVisualizer.sensitivity": {
           "type": "number",
-          "default": 1,
+          "default": 5,
           "minimum": 0.1,
           "maximum": 5,
-          "description": "Global audio sensitivity multiplier (ignored when individual frequency band sensitivity is enabled)"
+          "description": "Global audio sensitivity multiplier - higher values make cursors more responsive to audio"
         },
         "audioVisualizer.frequencyRange": {
           "type": "object",
@@ -88,7 +88,7 @@
         },
         "audioVisualizer.updateRate": {
           "type": "number",
-          "default": 60,
+          "default": 30,
           "minimum": 30,
           "maximum": 120,
           "description": "Update rate in FPS"
@@ -100,7 +100,7 @@
         },
         "audioVisualizer.smoothing": {
           "type": "number",
-          "default": 0.7,
+          "default": 0.3,
           "minimum": 0,
           "maximum": 1,
           "description": "Cursor movement smoothing (0.0 = no smoothing, 1.0 = maximum smoothing)"

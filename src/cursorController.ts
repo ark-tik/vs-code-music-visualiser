@@ -7,15 +7,25 @@ export class CursorController {
     private lastCursorPositions: vscode.Position[] = [];
     private smoothedMagnitudes: number[] = [];
 
-    constructor(private editor: vscode.TextEditor) {
+    constructor() {
         this.frequencyAnalyzer = new FrequencyAnalyzer();
     }
 
+    private getCurrentEditor(): vscode.TextEditor | undefined {
+        return vscode.window.activeTextEditor;
+    }
+
     updateCursors(frequencyData: FrequencyData): void {
+        const editor = this.getCurrentEditor();
+        if (!editor) {
+            Logger.debug('No active editor found, skipping cursor update - open a file to see visualization');
+            return;
+        }
+
         const config = vscode.workspace.getConfiguration('audioVisualizer');
-        const smoothing = config.get<number>('smoothing', 0.7);
+        const smoothing = config.get<number>('smoothing', 0.3);
         
-        const globalSensitivity = config.get<number>('sensitivity', 1.0);
+        const globalSensitivity = config.get<number>('sensitivity', 5.0);
 
         // Calculate optimal cursor count based on visible lines
         const optimalCursorCount = this.calculateOptimalCursorCount();
@@ -30,7 +40,7 @@ export class CursorController {
 
         // Create new line selections based on frequency data
         const newSelections: vscode.Selection[] = [];
-        const document = this.editor.document;
+        const document = editor.document;
         const totalLines = document.lineCount;
 
         for (let i = 0; i < smoothedBins.length; i++) {
@@ -64,12 +74,12 @@ export class CursorController {
 
         // Update editor selections
         if (newSelections.length > 0) {
-            this.editor.selections = newSelections;
+            editor.selections = newSelections;
             Logger.debug(`Set ${newSelections.length} line selections in editor`);
 
             // Optionally reveal the first selection
             if (newSelections.length > 0) {
-                this.editor.revealRange(new vscode.Range(newSelections[0].start, newSelections[0].end));
+                editor.revealRange(new vscode.Range(newSelections[0].start, newSelections[0].end));
             }
         } else {
             Logger.debug('No selections to set - all magnitudes below threshold');
@@ -77,14 +87,24 @@ export class CursorController {
     }
 
     clearCursors(): void {
+        const editor = this.getCurrentEditor();
+        if (!editor) {
+            return;
+        }
+        
         // Reset to single cursor at the beginning
         const position = new vscode.Position(0, 0);
-        this.editor.selection = new vscode.Selection(position, position);
+        editor.selection = new vscode.Selection(position, position);
     }
 
     private getVisibleLineCount(): number {
+        const editor = this.getCurrentEditor();
+        if (!editor) {
+            return 20; // Fallback if no active editor
+        }
+        
         // Get the visible range of the editor
-        const visibleRanges = this.editor.visibleRanges;
+        const visibleRanges = editor.visibleRanges;
         
         if (visibleRanges.length === 0) {
             return 20; // Fallback if no visible range available

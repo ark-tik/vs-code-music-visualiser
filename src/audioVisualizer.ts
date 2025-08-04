@@ -15,10 +15,10 @@ export class AudioVisualizer {
     private isRunning: boolean = false;
     private updateInterval: NodeJS.Timeout | undefined;
 
-    constructor(private editor: vscode.TextEditor, audioSource?: AudioSource, useFFT: boolean = true) {
-        this.audioSource = audioSource || new MicrophoneAudioSource();
+    constructor(audioSource?: AudioSource, useFFT: boolean = true) {
+        this.audioSource = audioSource || new SystemAudioSource();
         this.frequencyAnalyzer = new FrequencyAnalyzer(useFFT);
-        this.cursorController = new CursorController(editor);
+        this.cursorController = new CursorController();
         
         Logger.debug(`Audio visualizer created with ${this.audioSource.name} source`);
     }
@@ -41,8 +41,34 @@ export class AudioVisualizer {
             const errorMessage = error instanceof Error ? error.message : String(error);
             Logger.error(`Audio source failed: ${errorMessage}`);
             
-            // Only auto-fallback if using microphone source
-            if (this.audioSource instanceof MicrophoneAudioSource) {
+            // Auto-fallback: System Audio -> Microphone -> Test Mode
+            if (this.audioSource instanceof SystemAudioSource) {
+                Logger.info('System audio failed, falling back to microphone');
+                this.audioSource = new MicrophoneAudioSource();
+                try {
+                    await this.audioSource.initialize();
+                    await this.audioSource.startCapture();
+
+                    this.isRunning = true;
+                    this.startUpdateLoop();
+
+                    vscode.window.showInformationMessage('Audio visualizer started with microphone (system audio failed)');
+                } catch (micError) {
+                    Logger.info('Microphone also failed, falling back to test mode');
+                    this.audioSource = new TestAudioSource();
+                    try {
+                        await this.audioSource.initialize();
+                        await this.audioSource.startCapture();
+
+                        this.isRunning = true;
+                        this.startUpdateLoop();
+
+                        vscode.window.showInformationMessage('Audio visualizer started with test audio (system audio and microphone failed)');
+                    } catch (testError) {
+                        throw new Error(`All audio sources failed: ${testError}`);
+                    }
+                }
+            } else if (this.audioSource instanceof MicrophoneAudioSource) {
                 Logger.info('Microphone failed, falling back to test mode');
                 this.audioSource = new TestAudioSource();
                 try {

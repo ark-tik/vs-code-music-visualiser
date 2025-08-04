@@ -16,18 +16,12 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        const editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            vscode.window.showErrorMessage('No active text editor found');
-            return;
-        }
-
         try {
             Logger.debug('Creating AudioVisualizer instance...');
-            audioVisualizer = new AudioVisualizer(editor);
+            audioVisualizer = new AudioVisualizer();
             Logger.debug('Starting audio visualizer...');
             await audioVisualizer.start();
-            vscode.window.showInformationMessage('Audio visualizer started successfully');
+            vscode.window.showInformationMessage('Audio visualizer started with system audio');
         } catch (error) {
             Logger.error(`Error starting audio visualizer: ${error}`);
             vscode.window.showErrorMessage(`Failed to start audio visualizer: ${error}`);
@@ -54,15 +48,9 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        const editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            vscode.window.showErrorMessage('No active text editor found');
-            return;
-        }
-
         try {
             Logger.debug('Starting audio visualizer in test mode');
-            audioVisualizer = new AudioVisualizer(editor, undefined, true); // Use FFT
+            audioVisualizer = new AudioVisualizer(undefined, true); // Use FFT
             await audioVisualizer.startTestMode();
             vscode.window.showInformationMessage('Audio visualizer started in test mode (FFT)');
         } catch (error) {
@@ -77,15 +65,9 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        const editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            vscode.window.showErrorMessage('No active text editor found');
-            return;
-        }
-
         try {
             Logger.debug('Starting audio visualizer in test mode with DFT');
-            audioVisualizer = new AudioVisualizer(editor, undefined, false); // Use DFT
+            audioVisualizer = new AudioVisualizer(undefined, false); // Use DFT
             await audioVisualizer.startTestMode();
             vscode.window.showInformationMessage('Audio visualizer started in test mode (DFT)');
         } catch (error) {
@@ -97,12 +79,6 @@ export function activate(context: vscode.ExtensionContext) {
     const startFileCommand = vscode.commands.registerCommand('audioVisualizer.startFile', async () => {
         if (audioVisualizer) {
             vscode.window.showWarningMessage('Audio visualizer is already running');
-            return;
-        }
-
-        const editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            vscode.window.showErrorMessage('No active text editor found');
             return;
         }
 
@@ -127,7 +103,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         try {
             Logger.debug('Starting audio visualizer in file mode');
-            audioVisualizer = new AudioVisualizer(editor, undefined, true); // Use FFT
+            audioVisualizer = new AudioVisualizer(undefined, true); // Use FFT
             await audioVisualizer.startFileMode(filePath);
             vscode.window.showInformationMessage(`Audio visualizer started with file: ${require('path').basename(filePath)}`);
         } catch (error) {
@@ -143,15 +119,9 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        const editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            vscode.window.showErrorMessage('No active text editor found');
-            return;
-        }
-
         try {
             Logger.debug('Starting audio visualizer in system audio mode');
-            audioVisualizer = new AudioVisualizer(editor, undefined, true); // Use FFT
+            audioVisualizer = new AudioVisualizer(undefined, true); // Use FFT
             await audioVisualizer.startSystemAudioMode();
             vscode.window.showInformationMessage('Audio visualizer started with system audio output. Play audio on your computer to see visualization.');
         } catch (error) {
