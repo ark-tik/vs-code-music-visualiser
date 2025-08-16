@@ -63,6 +63,9 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         try {
+            // Open default visualization file first
+            await openDefaultVisualizationFile(context);
+            
             Logger.debug('Starting audio visualizer with microphone');
             audioVisualizer = new AudioVisualizer();
             await audioVisualizer.startMicrophoneMode();
@@ -82,6 +85,9 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         try {
+            // Open default visualization file first
+            await openDefaultVisualizationFile(context);
+            
             Logger.debug('Starting audio visualizer in system audio mode');
             audioVisualizer = new AudioVisualizer(undefined, true); // Use FFT
             await audioVisualizer.startSystemAudioMode();

@@ -13,8 +13,18 @@ MACOS_AUDIO_RESEARCH.md
 .eslintrc.json
 .prettierrc
 
-# Node.js
-node_modules/**
+# Node.js (exclude dev dependencies but keep runtime dependencies)
+node_modules/**/test/**
+node_modules/**/tests/**
+node_modules/**/*.d.ts
+node_modules/**/*.map
+node_modules/**/README*
+node_modules/**/readme*
+node_modules/**/CHANGELOG*
+node_modules/**/changelog*
+node_modules/**/.github/**
+node_modules/**/docs/**
+node_modules/**/doc/**
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

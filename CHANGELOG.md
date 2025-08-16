@@ -42,6 +42,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Audio fundamentals guide
 - Cross-platform setup instructions
 
+## [1.0.1] - 2024-08-16
+
+### Fixed
+- **Extension activation failure** - Fixed missing native dependencies in published package
+  - Included `@picovoice/pvrecorder-node`, `fft.js`, and `node-wav` in extension bundle
+  - Extension now activates properly without "Cannot find module" errors
+- **Default visualization file** - Fixed missing default-visualization.md auto-open
+  - Both microphone and system audio commands now automatically open the visualization file
+  - Provides better visual experience with rich content for cursor visualization
+
+### Technical
+- Updated `.vscodeignore` to include runtime dependencies while excluding dev files
+- Package size increased to 9MB (from 1.73MB) to include necessary native modules
+- Added proper dependency bundling for cross-platform compatibility
+
 ## [Unreleased]
 
 ### Planned Features
