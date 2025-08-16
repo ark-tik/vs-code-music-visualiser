@@ -4,7 +4,7 @@
 
 A Visual Studio Code extension that captures audio input and creates beautiful real-time visualizations using VS Code's multiline cursor feature. Watch your code dance to the beat of your music as frequency analysis drives dynamic cursor positioning.
 
-![VS Code Audio Visualizer Demo](https://img.shields.io/badge/VS%20Code-Extension-blue?logo=visualstudiocode)
+[![VS Code Extension](https://img.shields.io/badge/VS%20Code-Extension-blue?logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=ark-tik.multiline-cursor-audio-visualizer)
 ![TypeScript](https://img.shields.io/badge/TypeScript-4.9+-blue?logo=typescript)
 ![Audio](https://img.shields.io/badge/Audio-Real--time-green?logo=audacity)
 
@@ -34,6 +34,15 @@ A Visual Studio Code extension that captures audio input and creates beautiful r
 
 ### Installation
 
+**📦 From VS Code Marketplace** (Recommended):
+1. Open VS Code
+2. Go to Extensions (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+3. Search for "Multiline Cursor Audio Visualizer"
+4. Click **Install**
+
+**Or install directly**: [VS Code Marketplace →](https://marketplace.visualstudio.com/items?itemName=ark-tik.multiline-cursor-audio-visualizer)
+
+**🛠️ From Source** (Development):
 1. **Clone & Build**:
    ```bash
    git clone https://github.com/ark-tik/vs-code-music-visualiser.git
@@ -44,7 +53,7 @@ A Visual Studio Code extension that captures audio input and creates beautiful r
 
 2. **Install Extension**:
    - Press `F5` in VS Code to launch in Extension Development Host
-   - Or package: `npm install -g vsce && vsce package`
+   - Or package: `npm install -g @vscode/vsce && vsce package`
 
 ### Usage
 
