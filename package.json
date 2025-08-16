@@ -2,7 +2,7 @@
   "name": "multiline-cursor-audio-visualizer",
   "displayName": "Multiline Cursor Audio Visualizer",
   "description": "Transform VS Code into a real-time music visualizer using multiline cursors. Watch your code dance to audio frequencies from microphone or system audio.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "ark-tik",
   "author": {
     "name": "ark-tik"

@@ -73,6 +73,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Redundant and outdated documentation files
 - Reduced documentation by ~500 lines while improving clarity
 
+## [1.0.3] - 2024-08-16
+
+### Fixed
+- **Missing documentation file** - Restored HOW-IT-WORKS.md that was accidentally removed
+- **Repository cleanup** - Added *.vsix to .gitignore to prevent binary package files in repository
+
 ## [Unreleased]
 
 ### Planned Features
