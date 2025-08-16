@@ -1,8 +1,21 @@
 {
   "name": "multiline-cursor-audio-visualizer",
   "displayName": "Multiline Cursor Audio Visualizer",
-  "description": "Real-time audio visualization using multiline cursors in VS Code",
+  "description": "Transform VS Code into a real-time music visualizer using multiline cursors. Watch your code dance to audio frequencies from microphone or system audio.",
   "version": "1.0.0",
+  "publisher": "ark-tik",
+  "author": {
+    "name": "ark-tik"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/ark-tik/vs-code-music-visualiser#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ark-tik/vs-code-music-visualiser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ark-tik/vs-code-music-visualiser/issues"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -10,6 +23,23 @@
     "Other",
     "Visualization"
   ],
+  "keywords": [
+    "audio",
+    "music",
+    "visualizer",
+    "frequency",
+    "cursor",
+    "multiline",
+    "real-time",
+    "fft",
+    "microphone",
+    "sound"
+  ],
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1E1E1E",
+    "theme": "dark"
+  },
   "main": "./out/extension.js",
   "contributes": {
     "commands": [

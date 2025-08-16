@@ -8,14 +8,27 @@ A Visual Studio Code extension that captures audio input and creates beautiful r
 ![TypeScript](https://img.shields.io/badge/TypeScript-4.9+-blue?logo=typescript)
 ![Audio](https://img.shields.io/badge/Audio-Real--time-green?logo=audacity)
 
+## 📸 Gallery
+
+### Live Visualization in Action
+![Live Audio Visualization](images/live-visualization.gif)
+*Real-time cursor movement responding to audio frequencies*
+
+### Command Palette Integration
+![Command Palette](images/command-palette.png)
+*Easy access to audio visualizer commands*
+
+### Configurable Settings
+![Settings Panel](images/settings-panel.png)
+*Comprehensive settings for customizing your visualization experience*
+
 ## ✨ Features
 
-- **🎤 Multiple Audio Sources**: Microphone, system audio, audio files, or synthetic test signals
+- **🎤 Multiple Audio Sources**: Microphone and system audio capture
 - **⚡ Real-time Analysis**: Advanced FFT/DFT frequency analysis at 60 FPS
 - **🎯 Dynamic Cursors**: Each cursor represents a frequency band, positioned by amplitude
 - **🎛️ Configurable**: Adjust sensitivity, update rate, and cursor count
 - **🖥️ Cross-platform**: Works on Windows, macOS, and Linux
-- **🧪 Test Modes**: Built-in synthetic audio for testing without hardware dependencies
 
 ## 🚀 Quick Start
 
@@ -38,12 +51,9 @@ A Visual Studio Code extension that captures audio input and creates beautiful r
 1. **Open any text file** in VS Code
 2. **Start visualization**:
    - Press `Ctrl+Shift+P` (Command Palette)
-   - Type "Audio Visualizer: Start"
    - Choose your preferred mode:
-     - **Default**: Microphone input with automatic fallback
-     - **Test Mode**: Synthetic 440Hz tone for testing
-     - **File Mode**: Load and visualize audio files
-     - **System Audio**: Capture system output (loopback)
+     - **"Audio Visualizer: Start (Microphone)"**: Real-time microphone input
+     - **"Audio Visualizer: Start (System Audio)"**: Capture system output (loopback)
 
 3. **Watch the magic**: Cursors will appear and move based on audio frequencies:
    ```
@@ -59,9 +69,7 @@ The visualizer transforms audio into visual patterns through these steps:
 
 ### 1. Audio Capture
 - **Microphone**: Real-time input via cross-platform audio libraries
-- **File Playback**: WAV file support with automatic resampling
 - **System Audio**: Loopback capture of computer's audio output
-- **Test Mode**: Generated sine waves for consistent testing
 
 ### 2. Frequency Analysis  
 - **FFT Processing**: Fast Fourier Transform converts time-domain audio to frequency spectrum
@@ -103,9 +111,7 @@ Customize the visualizer through VS Code settings:
 src/
 ├── audioSources/           # Audio input implementations
 │   ├── microphoneAudioSource.ts   # Real microphone input
-│   ├── fileAudioSource.ts         # WAV file playback  
-│   ├── systemAudioSource.ts       # System audio loopback
-│   └── testAudioSource.ts         # Synthetic test signals
+│   └── systemAudioSource.ts       # System audio loopback
 ├── fftProviders/           # Frequency analysis algorithms  
 │   └── fftProvider.ts              # FFT/DFT implementations
 ├── audioVisualizer.ts      # Main orchestration
@@ -141,15 +147,6 @@ This will show available audio inputs and identify potential system audio loopba
   - **Linux**: Use PulseAudio monitor devices (`.monitor`)
 - **Pro tip**: Run `node list-audio-devices.js` to find loopback devices
 
-### 📁 File Mode
-- **Best for**: Analyzing specific audio files, presentations  
-- **Supported**: WAV files (MP3 support planned)
-- **Features**: Automatic mono conversion, resampling, looping
-
-### 🧪 Test Mode
-- **Best for**: Development, debugging, demonstrations
-- **No hardware needed**: Generates synthetic 440Hz tone
-- **Consistent**: Perfect for testing visualization algorithms
 
 ## 🏗️ Architecture
 
@@ -157,12 +154,12 @@ The extension follows a modular architecture with clear separation of concerns:
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Audio Sources │────▶   Frequency      │────▶   Cursor       │
+│   Audio Sources │────▶   Frequency      │────▶   Cursor        │
 │                 │    │   Analyzer       │    │   Controller    │  
 │ • Microphone    │    │                  │    │                 │
-│ • File          │    │ • FFT/DFT        │    │ • Line mapping  │
-│ • System        │    │ • Binning        │    │ • Position calc │
-│ • Test          │    │ • Smoothing      │    │ • VS Code API   │
+│ • System        │    │ • FFT/DFT        │    │ • Line mapping  │
+│                 │    │ • Binning        │    │ • Position calc │
+│                 │    │ • Smoothing      │    │ • VS Code API   │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
                                 │
                                 ▼
@@ -212,7 +209,7 @@ export class CustomFFT extends FFTProvider {
 ### No Audio Input Detected
 1. **Check permissions**: Ensure VS Code has microphone access
 2. **Test devices**: Run `node list-audio-devices.js` 
-3. **Try test mode**: Use "Audio Visualizer: Start (Test Mode)" to verify extension works
+3. **Try microphone mode**: Use "Audio Visualizer: Start (Microphone)" to verify extension works
 4. **Check logs**: Enable debug logging in settings
 
 ### System Audio Not Working
