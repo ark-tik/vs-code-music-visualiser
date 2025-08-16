@@ -1,246 +1,106 @@
 # 🎵 VS Code Music Visualizer
 
-> Transform your code editor into a real-time music visualizer using multiline cursors
-
-A Visual Studio Code extension that captures audio input and creates beautiful real-time visualizations using VS Code's multiline cursor feature. Watch your code dance to the beat of your music as frequency analysis drives dynamic cursor positioning.
+Transform your code editor into a real-time music visualizer using multiline cursors. Watch code dance to music as frequency analysis drives dynamic cursor positioning.
 
 [![VS Code Extension](https://img.shields.io/badge/VS%20Code-Extension-blue?logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=ark-tik.multiline-cursor-audio-visualizer)
-![TypeScript](https://img.shields.io/badge/TypeScript-4.9+-blue?logo=typescript)
-![Audio](https://img.shields.io/badge/Audio-Real--time-green?logo=audacity)
 
-## 📸 Gallery
+## Installation
 
-### Live Visualization in Action
+1. Open VS Code Extensions (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+2. Search "Multiline Cursor Audio Visualizer"
+3. Click **Install**
+
+[Install from Marketplace →](https://marketplace.visualstudio.com/items?itemName=ark-tik.multiline-cursor-audio-visualizer)
+
+## Gallery & Usage
+
+### Live Visualization
 ![Live Audio Visualization](images/live-visualization.gif)
-*Real-time cursor movement responding to audio frequencies*
-
-### Command Palette Integration
-![Command Palette](images/command-palette.png)
-*Easy access to audio visualizer commands*
-
-### Configurable Settings
-![Settings Panel](images/settings-panel.png)
-*Comprehensive settings for customizing your visualization experience*
-
-## ✨ Features
-
-- **🎤 Multiple Audio Sources**: Microphone and system audio capture
-- **⚡ Real-time Analysis**: Advanced FFT/DFT frequency analysis at 60 FPS
-- **🎯 Dynamic Cursors**: Each cursor represents a frequency band, positioned by amplitude
-- **🎛️ Configurable**: Adjust sensitivity, update rate, and cursor count
-- **🖥️ Cross-platform**: Works on Windows, macOS, and Linux
-
-## 🚀 Quick Start
-
-### Installation
-
-**📦 From VS Code Marketplace** (Recommended):
-1. Open VS Code
-2. Go to Extensions (`Ctrl+Shift+X` / `Cmd+Shift+X`)
-3. Search for "Multiline Cursor Audio Visualizer"
-4. Click **Install**
-
-**Or install directly**: [VS Code Marketplace →](https://marketplace.visualstudio.com/items?itemName=ark-tik.multiline-cursor-audio-visualizer)
-
-**🛠️ From Source** (Development):
-1. **Clone & Build**:
-   ```bash
-   git clone https://github.com/ark-tik/vs-code-music-visualiser.git
-   cd vs-code-music-visualiser
-   npm install
-   npm run compile
-   ```
-
-2. **Install Extension**:
-   - Press `F5` in VS Code to launch in Extension Development Host
-   - Or package: `npm install -g @vscode/vsce && vsce package`
-
-### Usage
-
-1. **Open any text file** in VS Code
-2. **Start visualization**:
-   - Press `Ctrl+Shift+P` (Command Palette)
-   - Choose your preferred mode:
-     - **"Audio Visualizer: Start (Microphone)"**: Real-time microphone input
-     - **"Audio Visualizer: Start (System Audio)"**: Capture system output (loopback)
-
-3. **Watch the magic**: Cursors will appear and move based on audio frequencies:
-   ```
-   Line 0 (Bass):     |--------●     ← Bass drum hits
-   Line 1 (Low Mid):  |---●          ← Guitar
-   Line 2 (Mid):      |------------● ← Vocals  
-   Line 3 (High):     |--●           ← Cymbals
-   ```
-
-## 🎯 How It Works
-
-The visualizer transforms audio into visual patterns through these steps:
-
-### 1. Audio Capture
-- **Microphone**: Real-time input via cross-platform audio libraries
-- **System Audio**: Loopback capture of computer's audio output
-
-### 2. Frequency Analysis  
-- **FFT Processing**: Fast Fourier Transform converts time-domain audio to frequency spectrum
-- **Real-time**: 1024-sample frames processed at 60 FPS
-- **Frequency Bins**: Audio spectrum divided into bands (bass, mids, treble, etc.)
-
-### 3. Visual Mapping
-- **Lines = Frequencies**: Each editor line represents a frequency band
-- **Horizontal Position = Amplitude**: Louder frequencies push cursors further right
-- **Live Updates**: Smooth 60 FPS visualization with configurable smoothing
-
-> **Think of it like this**: Music is like a layered cake with bass, mids, and treble. The visualizer shows you how "thick" each layer is at any moment, with cursors dancing to represent the intensity of each frequency band.
-
-## ⚙️ Configuration
-
-Customize the visualizer through VS Code settings:
-
-```json
-{
-  "audioVisualizer.sensitivity": 1.0,           // Amplitude multiplier (0.1-5.0)
-  "audioVisualizer.updateRate": 60,             // Refresh rate in FPS (30-120)  
-  "audioVisualizer.cursorCount": 64,            // Number of cursors (8-256)
-  "audioVisualizer.autoConfigureCursorCount": true, // Auto-adjust to visible lines
-  "audioVisualizer.maxCursors": 128,            // Maximum cursor limit
-  "audioVisualizer.smoothing": 0.7,             // Movement smoothing (0.0-1.0)
-  "audioVisualizer.enableDebugLogging": false   // Verbose logging for debugging
-}
-```
-
-## 🛠️ Development
-
-### Prerequisites
-- **Node.js** 18+
-- **VS Code** 1.74+  
-- **TypeScript** 4.9+
-
-### Project Structure
-```
-src/
-├── audioSources/           # Audio input implementations
-│   ├── microphoneAudioSource.ts   # Real microphone input
-│   └── systemAudioSource.ts       # System audio loopback
-├── fftProviders/           # Frequency analysis algorithms  
-│   └── fftProvider.ts              # FFT/DFT implementations
-├── audioVisualizer.ts      # Main orchestration
-├── frequencyAnalyzer.ts    # Audio → frequency data
-├── cursorController.ts     # Frequency → cursor positions
-└── extension.ts            # VS Code integration
-```
+Real-time cursor movement responding to audio frequencies - each cursor represents a frequency band positioned by amplitude.
 
 ### Available Commands
-- `npm run compile` - Build TypeScript
-- `npm run watch` - Continuous compilation
-- `node list-audio-devices.js` - Test audio device discovery
+![Command Palette](images/command-palette.png)
+Access via Command Palette (`Ctrl+Shift+P`):
+- **Audio Visualizer: Start (Microphone)** - Captures microphone input for live performance visualization
+- **Audio Visualizer: Start (System Audio)** - Captures computer audio output for music visualization
+- **Audio Visualizer: Stop** - Stops the visualization
+- **Audio Visualizer: Configure** - Opens extension settings
 
-### Testing Audio Setup
-Use the built-in audio device utility:
-```bash
-node list-audio-devices.js
-```
-This will show available audio inputs and identify potential system audio loopback devices.
+### Configuration Settings
+![Settings Panel](images/settings-panel.png)
+Customize through VS Code settings:
+- **Sensitivity** (0.1-5.0) - Audio response strength
+- **Update Rate** (30-120 FPS) - Visualization refresh rate
+- **Cursor Count** (8-256) - Number of frequency bands
+- **Auto Configure** - Matches cursor count to visible lines
+- **Smoothing** (0.0-1.0) - Movement fluidity
+- **Debug Logging** - Troubleshooting output
 
-## 🎛️ Audio Sources Explained
+## Setup Instructions
 
-### 🎤 Microphone Input
-- **Best for**: Live music, singing, acoustic instruments
-- **Setup**: Grant microphone permissions when prompted
-- **Works with**: Any system microphone or audio interface
+### Microphone Mode (Works Immediately)
+1. Open any text file
+2. Run "Audio Visualizer: Start (Microphone)"
+3. Start speaking/playing music - cursors respond instantly
 
-### 🔊 System Audio (Loopback)  
-- **Best for**: Visualizing music from Spotify, YouTube, games
-- **Setup Required**:
-  - **Windows**: Enable "Stereo Mix" in recording devices
-  - **macOS**: Install BlackHole or Soundflower
-  - **Linux**: Use PulseAudio monitor devices (`.monitor`)
-- **Pro tip**: Run `node list-audio-devices.js` to find loopback devices
+### System Audio Mode
 
+#### macOS Setup (Required)
+System audio requires additional setup on macOS:
 
-## 🏗️ Architecture
+**Step 1: Create Multi-Output Device**
+![Step 1](images/step-1-macos-system-audio-setup.png)
+- Open **Audio MIDI Setup** (`/Applications/Utilities/`)
+- Click **+** → **Create Multi-Output Device**
 
-The extension follows a modular architecture with clear separation of concerns:
+**Step 2: Configure Device**
+![Step 2](images/step-2-macos-system-audio-setup.png)
+- Check **Built-in Output**
+- Check **BlackHole 2ch** ([Download BlackHole](https://github.com/ExistentialAudio/BlackHole))
+- Enable **Drift Correction** for Built-in Output only
 
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Audio Sources │────▶   Frequency      │────▶   Cursor        │
-│                 │    │   Analyzer       │    │   Controller    │  
-│ • Microphone    │    │                  │    │                 │
-│ • System        │    │ • FFT/DFT        │    │ • Line mapping  │
-│                 │    │ • Binning        │    │ • Position calc │
-│                 │    │ • Smoothing      │    │ • VS Code API   │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                │
-                                ▼
-                       ┌─────────────────┐
-                       │   VS Code       │
-                       │   Editor        │
-                       │                 │
-                       │ • Multiline     │
-                       │   cursors       │
-                       │ • Real-time     │  
-                       │   updates       │
-                       └─────────────────┘
-```
+**Step 3: Select Audio Output**
+![Step 3](images/step-3-macos-system-audio-setup.png)
+- Open **System Settings** → **Sound**
+- Select your new **Multi-Output Device**
 
-## 🤝 Contributing
+**Step 4: Start Visualization**
+- Run "Audio Visualizer: Start (System Audio)"
+- Play music - cursors respond to system audio
 
-Contributions are welcome! The architecture is designed for easy extension:
+> ⚠️ **Note** ⚠️: When Multi-Output Device is selected, volume controls are disabled. Switch back to Built-in Output for normal volume control.
 
-### Adding New Audio Sources
-Implement the `AudioSource` interface:
-```typescript
-export class CustomAudioSource extends AudioSource {
-  get name(): string { return "Custom Source"; }
-  async initialize(): Promise<void> { /* setup */ }
-  async startCapture(): Promise<void> { /* begin */ }
-  stopCapture(): void { /* cleanup */ }
-}
-```
+#### Windows/Linux
+- **Windows**: Enable "Stereo Mix" in Sound settings
+- **Linux**: Extension detects PulseAudio monitor devices automatically
 
-### Adding New FFT Algorithms  
-Implement the `FFTProvider` interface:
-```typescript
-export class CustomFFT extends FFTProvider {
-  get name(): string { return "Custom FFT"; }
-  transform(input: Float32Array): { real: number[], imag: number[] }
-}
-```
+## Use Cases
 
-## 📚 Documentation
+- **🖥️ Dual Monitor Setup**: Open visualizer in separate VS Code window on second monitor for ambient visual experience
+- **🎵 Music Visualization**: Use system audio mode to create live music visuals while working
+- **🎙️ Live Streaming**: Use microphone mode during coding streams for interactive audio visualization
+- **🎤 Presentations**: Demonstrate with live audio visualization effects
 
-- **[Architecture Guide](docs/ARCHITECTURE.md)**: Detailed technical architecture
-- **[How It Works](docs/how-it-works.md)**: Step-by-step audio processing explanation  
-- **[Audio Fundamentals](docs/how-music-is-sampled.md)**: Understanding digital audio and FFT
+## Troubleshooting
 
-## 🐛 Troubleshooting
+**No Audio Detected**:
+- Check microphone permissions for VS Code
+- Try microphone mode first to verify extension works
+- Enable debug logging in settings
 
-### No Audio Input Detected
-1. **Check permissions**: Ensure VS Code has microphone access
-2. **Test devices**: Run `node list-audio-devices.js` 
-3. **Try microphone mode**: Use "Audio Visualizer: Start (Microphone)" to verify extension works
-4. **Check logs**: Enable debug logging in settings
+**Performance Issues**:
+- Lower update rate to 30 FPS
+- Reduce cursor count
+- Disable debug logging
 
-### System Audio Not Working
-- **Windows**: Enable "Stereo Mix" in Windows Sound settings
-- **macOS**: Install [BlackHole](https://github.com/ExistentialAudio/BlackHole) 
-- **Linux**: Use PulseAudio monitor devices ending in `.monitor`
+## Documentation
 
-### Performance Issues
-- Lower `updateRate` (try 30 FPS instead of 60)
-- Reduce `cursorCount` for fewer cursors
-- Disable debug logging in production use
+For curious developers and contributors:
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🎶 Inspiration
-
-Created for developers who love music and want to see their code come alive with sound. Whether you're coding to lo-fi hip-hop, debugging to death metal, or presenting with classical music, this visualizer adds a new dimension to your VS Code experience.
+- 📖 **[How It Works](docs/HOW-IT-WORKS.md)** - Audio processing and FFT explained
+- 🏗️ **[Architecture](docs/ARCHITECTURE.md)** - Technical architecture overview  
+- 🔧 **[Development](docs/DEVELOPMENT.md)** - Build from source and contribute
 
 ---
 
-**Made with ❤️ for the VS Code community using [Claude Code](https://claude.ai/code)**
-
-*Tip: Try it with different genres of music - each style creates unique visual patterns!*
+**Made with ❤️ for VS Code community** • [MIT License](LICENSE)

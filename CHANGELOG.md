@@ -57,6 +57,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Package size increased to 9MB (from 1.73MB) to include necessary native modules
 - Added proper dependency bundling for cross-platform compatibility
 
+## [1.0.2] - 2024-08-16
+
+### Improved
+- **Enhanced README structure** - Better organization with explanations directly below screenshots
+- **Visual macOS setup guide** - Added 3 step-by-step screenshots for system audio configuration
+- **Dual monitor use case** - Highlighted as primary use case for ambient visual experience
+- **Consolidated documentation** - Restructured `/docs` directory into 3 focused files
+  - `DEVELOPMENT.md` - Build instructions and contribution guide
+  - `HOW-IT-WORKS.md` - Audio processing pipeline explained
+  - `ARCHITECTURE.md` - Technical architecture overview
+- **Documentation links** - Added easy navigation to technical docs from main README
+
+### Removed
+- Redundant and outdated documentation files
+- Reduced documentation by ~500 lines while improving clarity
+
 ## [Unreleased]
 
 ### Planned Features

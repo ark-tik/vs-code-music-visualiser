@@ -60,3 +60,6 @@ build/
 *.zip
 *.tar.gz
 *.rar
+
+# Extension packages
+*.vsix
