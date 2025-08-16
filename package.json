@@ -14,11 +14,6 @@
   "contributes": {
     "commands": [
       {
-        "command": "audioVisualizer.start",
-        "title": "Start Audio Visualizer",
-        "category": "Audio Visualizer"
-      },
-      {
         "command": "audioVisualizer.stop",
         "title": "Stop Audio Visualizer",
         "category": "Audio Visualizer"
@@ -29,18 +24,8 @@
         "category": "Audio Visualizer"
       },
       {
-        "command": "audioVisualizer.startTest",
-        "title": "Start Audio Visualizer (Test Mode)",
-        "category": "Audio Visualizer"
-      },
-      {
-        "command": "audioVisualizer.startTestDFT",
-        "title": "Start Audio Visualizer (Test Mode - DFT)",
-        "category": "Audio Visualizer"
-      },
-      {
-        "command": "audioVisualizer.startFile",
-        "title": "Start Audio Visualizer (File Mode)",
+        "command": "audioVisualizer.startMicrophone",
+        "title": "Start Audio Visualizer (Microphone)",
         "category": "Audio Visualizer"
       },
       {

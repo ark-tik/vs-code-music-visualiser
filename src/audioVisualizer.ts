@@ -1,8 +1,6 @@
 import * as vscode from 'vscode';
 import { AudioSource } from './audioSources/audioSource';
 import { MicrophoneAudioSource } from './audioSources/microphoneAudioSource';
-import { TestAudioSource } from './audioSources/testAudioSource';
-import { FileAudioSource } from './audioSources/fileAudioSource';
 import { SystemAudioSource } from './audioSources/systemAudioSource';
 import { FrequencyAnalyzer } from './frequencyAnalyzer';
 import { CursorController } from './cursorController';
@@ -40,61 +38,17 @@ export class AudioVisualizer {
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : String(error);
             Logger.error(`Audio source failed: ${errorMessage}`);
-            
-            // Auto-fallback: System Audio -> Microphone -> Test Mode
-            if (this.audioSource instanceof SystemAudioSource) {
-                Logger.info('System audio failed, falling back to microphone');
-                this.audioSource = new MicrophoneAudioSource();
-                try {
-                    await this.audioSource.initialize();
-                    await this.audioSource.startCapture();
-
-                    this.isRunning = true;
-                    this.startUpdateLoop();
-
-                    vscode.window.showInformationMessage('Audio visualizer started with microphone (system audio failed)');
-                } catch (micError) {
-                    Logger.info('Microphone also failed, falling back to test mode');
-                    this.audioSource = new TestAudioSource();
-                    try {
-                        await this.audioSource.initialize();
-                        await this.audioSource.startCapture();
-
-                        this.isRunning = true;
-                        this.startUpdateLoop();
-
-                        vscode.window.showInformationMessage('Audio visualizer started with test audio (system audio and microphone failed)');
-                    } catch (testError) {
-                        throw new Error(`All audio sources failed: ${testError}`);
-                    }
-                }
-            } else if (this.audioSource instanceof MicrophoneAudioSource) {
-                Logger.info('Microphone failed, falling back to test mode');
-                this.audioSource = new TestAudioSource();
-                try {
-                    await this.audioSource.initialize();
-                    await this.audioSource.startCapture();
-
-                    this.isRunning = true;
-                    this.startUpdateLoop();
-
-                    vscode.window.showInformationMessage('Audio visualizer started with test audio (microphone failed)');
-                } catch (testError) {
-                    throw new Error(`Both microphone and test audio failed: ${testError}`);
-                }
-            } else {
-                throw error;
-            }
+            throw error;
         }
     }
 
-    async startTestMode(): Promise<void> {
+    async startMicrophoneMode(): Promise<void> {
         if (this.isRunning) {
             return;
         }
 
-        Logger.info('Starting test mode with synthetic audio');
-        this.audioSource = new TestAudioSource();
+        Logger.info('Starting microphone mode for audio capture');
+        this.audioSource = new MicrophoneAudioSource();
         
         try {
             await this.audioSource.initialize();
@@ -103,30 +57,9 @@ export class AudioVisualizer {
             this.isRunning = true;
             this.startUpdateLoop();
 
-            Logger.info('Test mode started successfully');
+            Logger.info('Microphone mode started successfully');
         } catch (error) {
-            throw new Error(`Failed to start test mode: ${error}`);
-        }
-    }
-
-    async startFileMode(filePath: string): Promise<void> {
-        if (this.isRunning) {
-            return;
-        }
-
-        Logger.info(`Starting file mode with audio file: ${filePath}`);
-        this.audioSource = new FileAudioSource(filePath);
-        
-        try {
-            await this.audioSource.initialize();
-            await this.audioSource.startCapture();
-
-            this.isRunning = true;
-            this.startUpdateLoop();
-
-            Logger.info('File mode started successfully');
-        } catch (error) {
-            throw new Error(`Failed to start file mode: ${error}`);
+            throw new Error(`Failed to start microphone mode: ${error}`);
         }
     }
 

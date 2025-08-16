@@ -40,26 +40,6 @@ export function activate(context: vscode.ExtensionContext) {
     Logger.info('Multiline Cursor Audio Visualizer activated');
 
     // Register commands
-    const startCommand = vscode.commands.registerCommand('audioVisualizer.start', async () => {
-        if (audioVisualizer) {
-            vscode.window.showWarningMessage('Audio visualizer is already running');
-            return;
-        }
-
-        try {
-            // Open default visualization file first
-            await openDefaultVisualizationFile(context);
-            
-            Logger.debug('Creating AudioVisualizer instance...');
-            audioVisualizer = new AudioVisualizer();
-            Logger.debug('Starting audio visualizer...');
-            await audioVisualizer.start();
-            vscode.window.showInformationMessage('Audio visualizer started with system audio');
-        } catch (error) {
-            Logger.error(`Error starting audio visualizer: ${error}`);
-            vscode.window.showErrorMessage(`Failed to start audio visualizer: ${error}`);
-        }
-    });
 
     const stopCommand = vscode.commands.registerCommand('audioVisualizer.stop', () => {
         if (audioVisualizer) {
@@ -75,75 +55,24 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.executeCommand('workbench.action.openSettings', 'audioVisualizer');
     });
 
-    const startTestCommand = vscode.commands.registerCommand('audioVisualizer.startTest', async () => {
+
+    const startMicrophoneCommand = vscode.commands.registerCommand('audioVisualizer.startMicrophone', async () => {
         if (audioVisualizer) {
             vscode.window.showWarningMessage('Audio visualizer is already running');
             return;
         }
 
         try {
-            Logger.debug('Starting audio visualizer in test mode');
-            audioVisualizer = new AudioVisualizer(undefined, true); // Use FFT
-            await audioVisualizer.startTestMode();
-            vscode.window.showInformationMessage('Audio visualizer started in test mode (FFT)');
+            Logger.debug('Starting audio visualizer with microphone');
+            audioVisualizer = new AudioVisualizer();
+            await audioVisualizer.startMicrophoneMode();
+            vscode.window.showInformationMessage('Audio visualizer started with microphone');
         } catch (error) {
-            Logger.error(`Error starting test mode: ${error}`);
-            vscode.window.showErrorMessage(`Failed to start test mode: ${error}`);
+            Logger.error(`Error starting microphone mode: ${error}`);
+            vscode.window.showErrorMessage(`Failed to start microphone mode: ${error}`);
         }
     });
 
-    const startTestDFTCommand = vscode.commands.registerCommand('audioVisualizer.startTestDFT', async () => {
-        if (audioVisualizer) {
-            vscode.window.showWarningMessage('Audio visualizer is already running');
-            return;
-        }
-
-        try {
-            Logger.debug('Starting audio visualizer in test mode with DFT');
-            audioVisualizer = new AudioVisualizer(undefined, false); // Use DFT
-            await audioVisualizer.startTestMode();
-            vscode.window.showInformationMessage('Audio visualizer started in test mode (DFT)');
-        } catch (error) {
-            Logger.error(`Error starting test mode: ${error}`);
-            vscode.window.showErrorMessage(`Failed to start test mode: ${error}`);
-        }
-    });
-
-    const startFileCommand = vscode.commands.registerCommand('audioVisualizer.startFile', async () => {
-        if (audioVisualizer) {
-            vscode.window.showWarningMessage('Audio visualizer is already running');
-            return;
-        }
-
-        // Show file picker for audio files
-        const fileUri = await vscode.window.showOpenDialog({
-            canSelectFiles: true,
-            canSelectFolders: false,
-            canSelectMany: false,
-            filters: {
-                'Audio Files': ['wav'],
-                'All Files': ['*']
-            },
-            openLabel: 'Select Audio File'
-        });
-
-        if (!fileUri || fileUri.length === 0) {
-            vscode.window.showInformationMessage('No audio file selected');
-            return;
-        }
-
-        const filePath = fileUri[0].fsPath;
-
-        try {
-            Logger.debug('Starting audio visualizer in file mode');
-            audioVisualizer = new AudioVisualizer(undefined, true); // Use FFT
-            await audioVisualizer.startFileMode(filePath);
-            vscode.window.showInformationMessage(`Audio visualizer started with file: ${require('path').basename(filePath)}`);
-        } catch (error) {
-            Logger.error(`Error starting file mode: ${error}`);
-            vscode.window.showErrorMessage(`Failed to start file mode: ${error}`);
-        }
-    });
 
 
     const startSystemAudioCommand = vscode.commands.registerCommand('audioVisualizer.startSystemAudio', async () => {
@@ -163,7 +92,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    context.subscriptions.push(startCommand, stopCommand, configureCommand, startTestCommand, startTestDFTCommand, startFileCommand, startSystemAudioCommand);
+    context.subscriptions.push(stopCommand, configureCommand, startMicrophoneCommand, startSystemAudioCommand);
 
     // Clean up on deactivation
     context.subscriptions.push(new vscode.Disposable(() => {
