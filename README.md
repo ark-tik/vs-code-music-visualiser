@@ -14,8 +14,9 @@ Transform your code editor into a real-time music visualizer using multiline cur
 
 ## Gallery & Usage
 
-### Live Visualization
-![Live Audio Visualization](images/live-visualization.gif)
+### Live Visualization (youtube video)
+[![Watch the video](https://img.youtube.com/vi/JVqVkJSoPdg/maxresdefault.jpg)](https://youtu.be/JVqVkJSoPdg)
+
 Real-time cursor movement responding to audio frequencies - each cursor represents a frequency band positioned by amplitude.
 
 ### Available Commands
